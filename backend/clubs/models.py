@@ -32,7 +32,7 @@ class ClubWorkingHours(models.Model):
         (7, 'Воскресенье'),
     ]
 
-	club = models.ForeignKey(Club, on_delete=models.CASCADE, related_name=working_hours)
+	club = models.ForeignKey(Club, on_delete=models.CASCADE, related_name='working_hours')
 	day_of_week = models.IntegerField(choices=DAYS_OF_WEEK)
 	open_time = models.TimeField()
 	close_time = models.TimeField()
@@ -42,19 +42,23 @@ class ClubWorkingHours(models.Model):
 		return f"{self.get_day_of_week_display()} в {self.club.name}"
 
 class Zone(models.Model):
-	ZONE_CHOICES = [
-        ('STANDARD', 'Standard'),
+    ZONE_CHOICES = [
+        ('STANDART', 'Standart'),
         ('VIP', 'VIP Room'),
         ('BOOTCAMP', 'Bootcamp'),
+		('PS5', 'ps5')
     ]
-	id = models.BigAutoField(primary_key=True, unique=True)
-	club = models.ForeignKey(Club, on_delete=models.CASCADE, related_name=Zone)
-	name = models.CharField(max_length=255)
-	zone_type = models.CharField(max_length=25, choices=ZONE_CHOICES, default='STANDART')
-	description = models.CharField(max_length=255, blank=True)
-	capacity = models.PositiveIntegerField(help_text="Количество мест в зоне")
-	color = models.CharField(max_length=7, default='#FFFFFF', help_text="hex-код цвета")
-	icon = models.CharField(max_length=50, blank=True, null=True, help_text="Имя иконки для фронтенда")
+
+    club = models.ForeignKey(Club, on_delete=models.CASCADE, related_name='zones')
+    name = models.CharField(max_length=255)
+    zone_type = models.CharField(max_length=25, choices=ZONE_CHOICES, default='STANDART')
+    description = models.TextField(blank=True, default='')
+    capacity = models.PositiveIntegerField(help_text="Количество мест в зоне")
+    color = models.CharField(max_length=7, default='#FFFFFF', help_text="hex-код цвета")
+    icon = models.CharField(max_length=50, blank=True, null=True, help_text="Имя иконки для фронтенда")
+
+    def __str__(self):
+        return f"{self.name} ({self.get_zone_type_display()}) в {self.club.name}"
 
 class ZonePriceModifier(models.Model):
     DAYS_CHOICES = [
