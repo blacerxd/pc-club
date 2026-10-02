@@ -16,11 +16,11 @@ class Game(models.Model):
 		return self.name
 
 class WorkstationGame(models.Model):
-	workstation = models.ForeignKey('catalog.Workstation', on_delete=models.CASCADE, related_name='games')
+	workstation = models.ForeignKey('clubs.Workstation', on_delete=models.CASCADE, related_name='games')
 	game = models.ForeignKey('catalog.Game', on_delete=models.CASCADE, related_name='workstations')
 
 	class Meta:
 		unique_together = ('workstation', 'game')
 
 	def __str__(self):
-		return f"{self.workstation.name} - {self.game.name}"
+		return f"{self.workstation.number_label} - {self.game.name}"

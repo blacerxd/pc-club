@@ -118,9 +118,9 @@ class HardwareProfile(models.Model):
         help_text="Выберите девайсы, установленные в этой зоне"
     )
 	def __str__(self):
-		return f"{self.name} в {self.club.name}"
+		return f"{self.name}"
 
-class Workstaion(models.Model):
+class Workstation(models.Model):
 	DEVICE_CHOICES = [
         ('PC', 'ПК'),
         ('PS5', 'PlayStation 5'),
