@@ -1,3 +1,15 @@
-from django.shortcuts import render
+from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from .models import User, StaffProfile
+from .serializers import UserSerializer, StaffProfileSerializer
 
-# Create your views here.
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+class StaffProfileViewSet(viewsets.ModelViewSet):
+    queryset = StaffProfile.objects.all()
+    serializer_class = StaffProfileSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
